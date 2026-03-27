@@ -1,8 +1,4 @@
-Aquí tienes el README completamente rediseñado para presentar **Clorian DB Connector** como parte de una arquitectura de sincronización bidireccional:
 
----
-
-```markdown
 # 🔗 Clorian DB Connector
 
 [![Java](https://img.shields.io/badge/Java-17%2B-blue)](https://java.com)
