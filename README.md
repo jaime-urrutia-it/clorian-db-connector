@@ -1,30 +1,38 @@
 Proyecto de recualificación ITSM desarrollado con asistencia de IA generativa. El código fue revisado, comprendido y validado manualmente como parte de un proceso de aprendizaje estructurado en arquitecturas de integración Java/MySQL/Jira.
 
-> ℹ️ ¿Eres reclutador y llegaste directamente aquí? 
-> Este proyecto forma parte de mi portfolio completo: [bit.ly/yago-itsm-portfolio](https://bit.ly/yago-itsm-portfolio)
+> ℹ️ ¿Eres reclutador y llegaste directamente aquí?
+Este proyecto forma parte de mi portfolio completo: ([https://yagourrutia.com])
 > Allí encontrarás contexto, demo visual y mi propuesta de valor como IT Service Coordinator.
+> 
 
 # 🔗 Clorian DB Connector
 
-[![Java](https://img.shields.io/badge/Java-17%2B-blue)](https://java.com)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.3-green)](https://spring.io)
-[![Arquitectura](https://img.shields.io/badge/Arquitectura-Bidireccional-orange)]()
+[Java](https://img.shields.io/badge/Java-17%2B-blue)
+
+[Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.3-green)
+
+[Arquitectura](https://img.shields.io/badge/Arquitectura-Bidireccional-orange)
 
 **Módulo de integración Java para orquestación de datos entre MySQL y Jira Cloud**. Este proyecto funciona como **componente emisor** en una arquitectura de sincronización híbrida, permitiendo tanto operación standalone (sincronización unidireccional programada) como integración en tiempo real con su complemento [Jira Webhook Receiver](https://github.com/jaime-urrutia-it/jira-webhook-receiver).
 
 > 🏗️ **Parte de un Ecosistema**: Este es el **EMISOR** (MySQL → Jira) del sistema completo. Para sincronización **bidireccional en tiempo real**, despliégalo junto con el **RECEPTOR** ([Jira Webhook Receiver](https://github.com/jaime-urrutia-it/jira-webhook-receiver)), que escucha cambios de Jira hacia MySQL vía webhooks.
+> 
 
 ---
 
 ## 🎯 Propósito y Arquitectura
 
 ### Modo Standalone (Unidireccional)
+
 Opera de forma independiente realizando **polling periódico** (cada 30s) para:
+
 - Detectar nuevos tickets de soporte en MySQL y crearlos automáticamente en Jira
 - Sincronizar estados de Jira hacia MySQL mediante consulta periódica a la API REST
 
 ### Modo Integrado (Bidireccional - Recomendado)
+
 En conjunto con **Jira Webhook Receiver**, forma un sistema de sincronización completo:
+
 - **Este proyecto (Emisor)**: Envía tickets nuevos de MySQL a Jira + Polling de estado cada 30s
 - **Webhook Receiver (Receptor)**: Recibe actualizaciones instantáneas de Jira vía HTTP webhooks
 
@@ -72,6 +80,7 @@ En conjunto con **Jira Webhook Receiver**, forma un sistema de sincronización c
 ## ✨ Características Principales
 
 ### Módulo de Base de Datos (`com.clorian.db`)
+
 - **🔌 Conexión JDBC Robusta**: Gestión thread-safe de conexiones MySQL con validación de estado (`isConnectionValid()`)
 - **⚡ Ejecución de Scripts Dinámicos**: Carga y ejecución de archivos `.sql` externos con clasificación automática de criticidad (scripts "critical", "refund" o "payment" detienen ejecución ante fallos)
 - **🛡️ Seguridad SQL**: Uso de `PreparedStatement` para prevenir inyección SQL
@@ -79,17 +88,18 @@ En conjunto con **Jira Webhook Receiver**, forma un sistema de sincronización c
 - **🎛️ Orquestación**: Servicio `QueryAutomationService` que gestiona flujos de trabajo críticos con manejo de dependencias entre scripts
 
 ### Módulo de Integración Jira (`com.clorian.jira`)
+
 - **☁️ API REST V3**: Cliente HTTP nativo (Java 11+) para Jira Cloud con autenticación Basic Auth
 - **📝 Creación de Issues**: Generación automática de tickets con formato ADF (Atlassian Document Format), campos personalizados (`customfield_10058` para ID externo) y mapeo de prioridades (High/Medium/Low)
-- **🔄 Sincronización por Polling**: 
-  - `SupportTicketSyncService`: Detecta tickets `status='Open'` sin `jira_issue_key` y los crea en Jira
-  - `StatusSyncService`: Sincroniza estados cada 30s mediante consulta a API de Jira y actualiza MySQL
+- **🔄 Sincronización por Polling**:
+    - `SupportTicketSyncService`: Detecta tickets `status='Open'` sin `jira_issue_key` y los crea en Jira
+    - `StatusSyncService`: Sincroniza estados cada 30s mediante consulta a API de Jira y actualiza MySQL
 - **🎯 Gestión de Estados**: Mapeo inteligente bidireccional entre sistemas
 
 ### Funcionalidades Específicas por Modo
 
 | Función | Modo Standalone | Modo Integrado (con Webhook Receiver) |
-|---------|----------------|--------------------------------------|
+| --- | --- | --- |
 | Crear tickets en Jira | ✅ Sí | ✅ Sí (vía este proyecto) |
 | Detectar cambios de estado Jira→MySQL | ⚠️ Cada 30s (polling) | ✅ Tiempo real (webhook) |
 | Detectar cambios de estado MySQL→Jira | ✅ Sí (polling) | ✅ Sí (polling) |
@@ -101,15 +111,14 @@ En conjunto con **Jira Webhook Receiver**, forma un sistema de sincronización c
 ## 🛠️ Stack Tecnológico
 
 | Tecnología | Versión | Propósito |
-|------------|---------|-----------|
+| --- | --- | --- |
 | **Lenguaje** | Java 17+ (Compatible JDK 8+) | Lógica de negocio |
-| **Framework** | Spring Boot 3.3.3 | IoC y ejecución standalone |
 | **Base de Datos** | MySQL 5.7+ | Persistencia local |
 | **Driver JDBC** | MySQL Connector/J 8.x | Conectividad BD |
-| **API Externa** | Jira REST API v3 | Integración cloud |
-| **JSON** | org.json 20231013 | Parseo de payloads |
+| **API Externa** | Jira REST API v3 | Integración con Jira Cloud/Server |
+| **JSON** | org.json 20231013 | Parseo ligero de payloads REST |
 | **HTTP Client** | `java.net.http.HttpClient` | Comunicación con Jira |
-| **Build** | Maven / Eclipse IDE | Empaquetado JAR ejecutable |
+| **Build** | Eclipse IDE | Empaquetado JAR ejecutable |
 
 ---
 
@@ -154,6 +163,7 @@ clorian-db-connector/
 ## 🚀 Instalación y Configuración
 
 ### 1. Prerrequisitos
+
 - Java JDK 17 o superior (compatible con JDK 8+)
 - MySQL Server 5.7+ con esquema `clorian_db`
 - Cuenta en Jira Cloud con token de API generado
@@ -197,7 +207,7 @@ Edita `src/com/clorian/db/MainTest.java`:
 
 ```java
 // Configuración Jira Cloud (obligatoria)
-private static final String JIRA_URL = "https://tu-dominio.atlassian.net";
+private static final String JIRA_URL = "<https://tu-dominio.atlassian.net>";
 private static final String JIRA_EMAIL = "tu-email@ejemplo.com";
 private static final String JIRA_API_TOKEN = "tu-token-de-api"; // Generar en Configuración de Jira → Seguridad → Tokens de API
 private static final String JIRA_PROJECT_KEY = "KAN"; // Clave de tu proyecto (ej: KAN, PROJ, SUP)
@@ -230,14 +240,15 @@ java -cp "lib/*:out" com.clorian.db.MainTest
 En este modo, el sistema opera de forma independiente sincronizando datos cada 30 segundos.
 
 **Flujo de ejecución (MainTest.java)**:
+
 1. **Validación de conexiones**: Verifica MySQL y Jira
 2. **Sincronización inicial**: Ejecuta `SupportTicketSyncService.syncOpenTickets()`
-   - Busca tickets con `status='Open'` y `jira_issue_key IS NULL`
-   - Crea issues en Jira vía REST API
-   - Actualiza `jira_issue_key` en MySQL
+    - Busca tickets con `status='Open'` y `jira_issue_key IS NULL`
+    - Crea issues en Jira vía REST API
+    - Actualiza `jira_issue_key` en MySQL
 3. **Monitoreo continuo**: Inicia `StatusSyncService` en hilo separado
-   - Cada 30s consulta estados de Jira
-   - Actualiza MySQL si detecta diferencias (`last_sync_status <> status`)
+    - Cada 30s consulta estados de Jira
+    - Actualiza MySQL si detecta diferencias (`last_sync_status <> status`)
 4. **Menú interactivo**: Permite sincronización manual o salida
 
 **Ideal para**: Entornos donde la latencia de 30s es aceptable y no se requiere infraestructura adicional de webhooks.
@@ -247,6 +258,7 @@ En este modo, el sistema opera de forma independiente sincronizando datos cada 3
 Combina este proyecto con **Jira Webhook Receiver** para sincronización en tiempo real.
 
 **Arquitectura de despliegue**:
+
 ```
 Servidor A (Este proyecto - Emisor):
   - Clorian DB Connector ejecutándose
@@ -260,6 +272,7 @@ Servidor B (Receptor):
 ```
 
 **Ventajas**:
+
 - ✅ Sincronización casi instantánea (subsegundo)
 - ✅ Menor carga en API de Jira (menos polling)
 - ✅ Mayor escalabilidad
@@ -274,7 +287,7 @@ En `MainTest.java`, modifica el intervalo de polling para que solo cree tickets,
 // lo manejará el Webhook Receiver
 
 // Opción: Aumentar a 5 minutos (300000ms) solo para verificación de sanity
-Thread.sleep(300000); 
+Thread.sleep(300000);
 ```
 
 ---
@@ -284,16 +297,19 @@ Thread.sleep(300000);
 Para lograr la sincronización bidireccional completa:
 
 ### Paso 1: Desplegar este proyecto (Emisor)
+
 Sigue las instrucciones de instalación anteriores. Asegúrate de que pueda:
+
 - Conectarse a MySQL
 - Crear issues en Jira (prueba con `MainTest.java`)
 
 ### Paso 2: Desplegar Jira Webhook Receiver (Receptor)
+
 En el mismo servidor o diferente (recomendado mismo servidor para compartir MySQL localmente):
 
 ```bash
 # En directorio separado
-git clone https://github.com/jaime-urrutia-it/jira-webhook-receiver.git
+git clone <https://github.com/jaime-urrutia-it/jira-webhook-receiver.git>
 cd jira-webhook-receiver
 mvn clean package
 java -jar target/JiraWebhookReceiver-1.0.0.jar
@@ -305,8 +321,8 @@ Verifica que responda en `http://localhost:8080/api/jira-webhook`
 
 1. Ve a **Configuración del Sistema** → **WebHooks** (requiere admin)
 2. Crea nuevo webhook:
-   - **URL**: `http://<ip-servidor>:8080/api/jira-webhook`
-   - **Eventos**: Issue → updated
+    - **URL**: `http://<ip-servidor>:8080/api/jira-webhook`
+    - **Eventos**: Issue → updated
 3. Guarda
 
 ### Paso 4: Prevenir Ciclos Infinitos
@@ -324,6 +340,7 @@ UPDATE SupportTickets SET status=?, last_sync_status=? WHERE ...
 ```
 
 **Flujo seguro**:
+
 1. Usuario cambia estado en Jira a "En curso"
 2. Jira → Webhook Receiver → MySQL (status='In Progress', last_sync='In Progress')
 3. Emisor hace polling: compara status='In Progress' vs last_sync='In Progress' → **No hay diferencia, no hace nada** ✅
@@ -336,13 +353,14 @@ UPDATE SupportTickets SET status=?, last_sync_status=? WHERE ...
 Sistema de traducción entre estados de Jira (Español) y MySQL:
 
 | Estado Jira (UI) | Estado MySQL | ID Transición (Jira) |
-|------------------|--------------|---------------------|
+| --- | --- | --- |
 | **Tareas por hacer** | `Open` | 11 |
 | **En curso** | `In Progress` | 21 |
 | **Esperando por el cliente** | `Waiting for Customer` | 31 |
 | **Resuelta** | `Resolved` | 41 |
 
 **Nota**: Si personalizas los nombres de estado en Jira, actualiza:
+
 - En **este proyecto**: `StatusSyncService.getTransitionIdForStatus()`
 - En **Webhook Receiver**: `WebhookController.mapJiraStatusToMySQL()`
 
@@ -352,9 +370,10 @@ Sistema de traducción entre estados de Jira (Español) y MySQL:
 
 ### Logs y Trazabilidad
 
-Este proyecto utiliza logging por consola (configurable a SLF4J en futuras versiones). 
+Este proyecto utiliza logging por consola (configurable a SLF4J en futuras versiones).
 
 **Indicadores de funcionamiento correcto**:
+
 ```
 ✅ MySQL: Conexión exitosa.
 ☁️ Conectando a Jira Cloud...
@@ -367,9 +386,9 @@ Este proyecto utiliza logging por consola (configurable a SLF4J en futuras versi
 ### Problemas Comunes y Soluciones
 
 | Síntoma | Causa probable | Solución |
-|---------|---------------|----------|
+| --- | --- | --- |
 | `ClassNotFoundException: com.mysql.cj.jdbc.Driver` | Falta Connector/J en classpath | Descargar mysql-connector-java-8.x.jar y agregar a `lib/` |
-| Error 401 al conectar Jira | Token inválido o email incorrecto | Verificar token en [id.atlassian.com](https://id.atlassian.com) |
+| Error 401 al conectar Jira | Token inválido o email incorrecto | Verificar token en [id.atlassian.com](https://id.atlassian.com/) |
 | "No se encontró ticket con jira_issue_key" | Issue fue eliminado en Jira | Verificar integridad referencial o limpiar campo manualmente |
 | Doble actualización de estados | Ambos proyectos están sincronizando estados | Dejar solo Webhook Receiver para sync de estados, este proyecto solo para creación |
 | Campos personalizados no aparecen | ID de campo incorrecto | Verificar ID en Jira → Configuración → Campos personalizados (ej: customfield_10058) |
@@ -377,18 +396,18 @@ Este proyecto utiliza logging por consola (configurable a SLF4J en futuras versi
 ### Testing de la Integración Completa
 
 1. **Crear ticket en MySQL**:
+
 ```sql
-INSERT INTO SupportTickets (customer_id, subject, description, status) 
+INSERT INTO SupportTickets (customer_id, subject, description, status)
 VALUES (1, 'Prueba Integración', 'Test bidireccional', 'Open');
 ```
 
-2. **Verificar creación en Jira** (Emisor):
-   - Esperar hasta 30s o usar opción manual en menú
-   - Verificar que aparezca issue tipo "KAN-XX"
-
-3. **Verificar webhook inverso** (Receptor):
-   - Mover el issue a "En curso" en Jira
-   - Verificar en MySQL: `SELECT status FROM SupportTickets WHERE jira_issue_key='KAN-XX';` → Debe ser 'In Progress' inmediatamente (< 1s)
+1. **Verificar creación en Jira** (Emisor):
+    - Esperar hasta 30s o usar opción manual en menú
+    - Verificar que aparezca issue tipo "KAN-XX"
+2. **Verificar webhook inverso** (Receptor):
+    - Mover el issue a "En curso" en Jira
+    - Verificar en MySQL: `SELECT status FROM SupportTickets WHERE jira_issue_key='KAN-XX';` → Debe ser 'In Progress' inmediatamente (< 1s)
 
 ---
 
@@ -397,7 +416,7 @@ VALUES (1, 'Prueba Integración', 'Test bidireccional', 'Open');
 ### Patrones de Diseño Implementados
 
 | Patrón | Implementación | Ubicación |
-|--------|---------------|-----------|
+| --- | --- | --- |
 | **Singleton** | Carga estática del driver JDBC | `DatabaseConnection` |
 | **Factory** | Creación de objetos `QueryResult` | `QueryExecutor.execute()` |
 | **Strategy** | Diferentes estrategias de salida (consola vs archivo) | `QueryResultHandler` |
@@ -416,15 +435,17 @@ VALUES (1, 'Prueba Integración', 'Test bidireccional', 'Open');
 ## 🚧 Roadmap y Evolución
 
 ### Próximas Mejoras (Backlog)
-- [ ] **Externalización de configuración**: Mover credenciales a `application.properties` y variables de entorno
-- [ ] **Logging profesional**: Migrar a SLF4J + Logback con appenders diferenciados
-- [ ] **Base de datos**: Soporte para PostgreSQL además de MySQL
-- [ ] **Dockerización**: Dockerfile oficial para despliegue en contenedores
-- [ ] **Microservicios**: Separar módulo DB y Jira en servicios independientes comunicados por mensajería
-- [ ] **Seguridad**: Implementar encriptación de credenciales con JKS (Java KeyStore)
-- [ ] **API REST propia**: Exponer endpoints para gestionar la sincronización vía HTTP (start/stop/status)
+
+- [ ]  **Externalización de configuración**: Mover credenciales a `application.properties` y variables de entorno
+- [ ]  **Logging profesional**: Migrar a SLF4J + Logback con appenders diferenciados
+- [ ]  **Base de datos**: Soporte para PostgreSQL además de MySQL
+- [ ]  **Dockerización**: Dockerfile oficial para despliegue en contenedores
+- [ ]  **Microservicios**: Separar módulo DB y Jira en servicios independientes comunicados por mensajería
+- [ ]  **Seguridad**: Implementar encriptación de credenciales con JKS (Java KeyStore)
+- [ ]  **API REST propia**: Exponer endpoints para gestionar la sincronización vía HTTP (start/stop/status)
 
 ### Versión 2.0 (Planeada)
+
 - Migración completa a **Spring Boot** (ya parcialmente en Webhook Receiver)
 - Soporte para **múltiples instancias de Jira** simultáneas
 - **Cola de mensajes** (RabbitMQ/ActiveMQ) para desacoplar recepción de procesamiento
@@ -437,14 +458,16 @@ VALUES (1, 'Prueba Integración', 'Test bidireccional', 'Open');
 Este proyecto forma parte de un conjunto de herramientas de integración:
 
 | Proyecto | Rol | Dirección | Latencia |
-|----------|-----|-----------|----------|
+| --- | --- | --- | --- |
 | **Clorian DB Connector** | Emisor | MySQL → Jira | ~30s (polling) |
 | **Jira Webhook Receiver** | Receptor | Jira → MySQL | <1s (webhook) |
 
 **Repositorios relacionados**:
+
 - 🔄 [Jira Webhook Receiver](https://github.com/jaime-urrutia-it/jira-webhook-receiver) - Componente receptor obligatorio para arquitectura bidireccional
 
 **Cómo contribuir**:
+
 1. Reporta issues en el repositorio correspondiente
 2. Para mejoras de arquitectura, considera el impacto en ambos proyectos
 3. Mantén compatibilidad del esquema de base de datos `clorian_db`
@@ -453,11 +476,14 @@ Este proyecto forma parte de un conjunto de herramientas de integración:
 
 ## 📝 Licencia y Autoría
 
-Desarrollado por **Jaime Urrutia**  
+Desarrollado por **Jaime Urrutia**
+
 GitHub: [@jaime-urrutia-it](https://github.com/jaime-urrutia-it)
 
-**Versión actual**: 1.0.0  
-**Compatibilidad**: Jira Cloud, Jira Server 8.x+, Jira Data Center  
+**Versión actual**: 1.0.0
+
+**Compatibilidad**: Jira Cloud, Jira Server 8.x+, Jira Data Center
+
 **Requiere**: Java 17+, MySQL 5.7+
 
 ---
@@ -465,6 +491,7 @@ GitHub: [@jaime-urrutia-it](https://github.com/jaime-urrutia-it)
 ## 📞 Soporte
 
 Para dudas sobre:
+
 - **Este proyecto (Emisor)**: Abre un issue en este repositorio
 - **Arquitectura bidireccional**: Consulta ambos READMEs y verifica la sección "Integración"
 - **Configuración de webhooks**: Revisa el README de [Jira Webhook Receiver](https://github.com/jaime-urrutia-it/jira-webhook-receiver)
@@ -472,7 +499,7 @@ Para dudas sobre:
 ---
 
 **¿Te resulta útil este proyecto?** Dale ⭐ al repositorio y considera desplegar la arquitectura completa para una experiencia de sincronización en tiempo real.
-```
+
 
 ---
 
