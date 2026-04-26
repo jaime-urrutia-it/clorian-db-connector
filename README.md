@@ -3,15 +3,19 @@ Proyecto de recualificación ITSM desarrollado con asistencia de IA generativa. 
 > ℹ️ ¿Eres reclutador y llegaste directamente aquí?
 Este proyecto forma parte de mi portfolio completo: ([https://yagourrutia.com])
 > Allí encontrarás contexto, demo visual y mi propuesta de valor como IT Service Coordinator.
-> 
+>
+> ⚠️ **Estado Actual (Abril 2026)**: 
+> - Este proyecto es un MVP funcional para demostración técnica.
+> - La integración con Jira requiere token válido (renovado periódicamente).
+> - Algunas secciones del README describen funcionalidades planificadas para v2.0.
+> - Para ver el código real, consulta los archivos .java en src/.
 
 # 🔗 Clorian DB Connector
 
 [Java](https://img.shields.io/badge/Java-17%2B-blue)
-
-[Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.3-green)
-
-[Arquitectura](https://img.shields.io/badge/Arquitectura-Bidireccional-orange)
+[Jira](https://img.shields.io/badge/Jira-Cloud%2FServer-0052CC.svg)](https://www.atlassian.com/software/jira)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7+-4479A1.svg)](https://www.mysql.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 **Módulo de integración Java para orquestación de datos entre MySQL y Jira Cloud**. Este proyecto funciona como **componente emisor** en una arquitectura de sincronización híbrida, permitiendo tanto operación standalone (sincronización unidireccional programada) como integración en tiempo real con su complemento [Jira Webhook Receiver](https://github.com/jaime-urrutia-it/jira-webhook-receiver).
 
