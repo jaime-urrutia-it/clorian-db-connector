@@ -15,10 +15,10 @@ import java.util.Scanner;
 
 public class MainTest {
     // 🔐 Credenciales Jira
-    private static final String JIRA_URL = "https://yurrutiavila.atlassian.net";
-    private static final String JIRA_EMAIL = "yurrutiavila@gmail.com";
-    private static final String JIRA_API_TOKEN = "TU_TOKEN_AQUI";
-
+    private static final String JIRA_URL = System.getenv().getOrDefault("JIRA_URL", "https://tu-dominio.atlassian.net");
+    private static final String JIRA_EMAIL = System.getenv().getOrDefault("JIRA_EMAIL", "");
+    private static final String JIRA_API_TOKEN = System.getenv().getOrDefault("JIRA_API_TOKEN", "");
+    
     // 🎯 Proyecto y tipo de issue en Jira
     private static final String JIRA_PROJECT_KEY = "KAN";
     private static final String JIRA_ISSUE_TYPE_ID = "10004";
