@@ -83,6 +83,7 @@ public class StatusSyncService {
             case "in progress", "en curso" -> "21";
             case "resolved", "resuelta" -> "41";
             case "waiting for customer", "esperando por el cliente" -> "31";
+            case "Closed" -> "51";
             default -> {
                 System.err.printf("❌ Estado no reconocido: '%s'%n", status);
                 yield null;
