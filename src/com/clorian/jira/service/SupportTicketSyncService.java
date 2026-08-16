@@ -60,7 +60,6 @@ public class SupportTicketSyncService {
                 JSONObject adf = createAdfDocument(descriptionText);
                 String jiraPriority = mapPriority(rs.getString("priority"));
 
-                // ✅ Crear issue en Jira
                 String issueKey = issueCreator.createIssueWithDescriptionAndCustomField(
                     summary,
                     adf,
@@ -69,7 +68,6 @@ public class SupportTicketSyncService {
                 );
 
                 if (issueKey != null) {
-                    // ✅ Actualizar MySQL con el jira_issue_key
                     updateJiraIssueKey(conn, ticketId, issueKey);
                     System.out.printf("✅ Sincronizado: Soporte #%d → %s%n", ticketId, issueKey);
                     synced++;
@@ -83,7 +81,6 @@ public class SupportTicketSyncService {
         }
     }
 
-    // ✅ Actualiza el campo jira_issue_key en MySQL
     private void updateJiraIssueKey(Connection conn, int supportTicketId, String jiraIssueKey) {
         String sql = "UPDATE SupportTickets SET jira_issue_key = ? WHERE support_ticket_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -99,7 +96,6 @@ public class SupportTicketSyncService {
         }
     }
 
-    // Crea un JSON en formato ADF (Atlassian Document Format)
     private JSONObject createAdfDocument(String text) {
         JSONObject doc = new JSONObject();
         doc.put("version", 1);
@@ -123,13 +119,12 @@ public class SupportTicketSyncService {
         return doc;
     }
 
-    // Mapea prioridad de MySQL a Jira
-        // Mapea prioridad de MySQL a Jira
+    // Mapea prioridad de MySQL a Jira (sin espacios en literales)
     private String mapPriority(String priority) {
         if (priority == null) return "Medium";
         return switch (priority.trim()) {
-            case "High", "Alta"  -> "High";
-            case "Low",  "Baja"  -> "Low";
+            case "High", "Alta" -> "High";
+            case "Low", "Baja" -> "Low";
             case "Medium", "Media" -> "Medium";
             default -> "Medium";
         };
