@@ -124,10 +124,12 @@ public class SupportTicketSyncService {
     }
 
     // Mapea prioridad de MySQL a Jira
+        // Mapea prioridad de MySQL a Jira
     private String mapPriority(String priority) {
-        return switch (priority) {
-            case "High", "Alta" -> "High";
-            case "Low", "Baja" -> "Low";
+        if (priority == null) return "Medium";
+        return switch (priority.trim()) {
+            case "High", "Alta"  -> "High";
+            case "Low",  "Baja"  -> "Low";
             case "Medium", "Media" -> "Medium";
             default -> "Medium";
         };
