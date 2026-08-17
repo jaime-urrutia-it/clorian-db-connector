@@ -113,6 +113,8 @@ En conjunto con **Jira Webhook Receiver**, forma un sistema de sincronizacion co
 
 ## Estructura del Proyecto
 
+> ℹ️ **Nota sobre dependencias en `lib/`:** este proyecto usa compilación manual con `javac` (no Maven/Gradle), por lo que las dependencias externas necesarias para compilar se versionan directamente en `lib/`. El archivo `json-20231013.jar` (74 KB, org.json) es requerido para el parseo de payloads REST. La regla `*.jar` en `.gitignore` previene la adición futura de artefactos de build o JARs innecesarios.
+
 ```
 clorian-db-connector/
 ├── lib/
