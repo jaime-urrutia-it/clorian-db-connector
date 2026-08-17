@@ -1,5 +1,4 @@
 // archivo: src/com/clorian/db/DatabaseConnection.java
-
 package com.clorian.db;
 
 import java.sql.Connection;
@@ -9,13 +8,13 @@ import java.sql.SQLException;
 /**
  * Clase responsable de gestionar la conexión a la base de datos MySQL.
  * Utiliza JDBC con el driver de MySQL Connector/J.
- * 
- * Configuración actual:
- *   - URL: jdbc:mysql://localhost:3306/clorian_db
- *   - Usuario: root
- *   - Contraseña: vacía
+ *
+ * Configuración actual (externalizada vía variables de entorno, con fallback local):
+ *   - URL: ${MYSQL_URL} (default: jdbc:mysql://localhost:3306/clorian_db?useSSL=false&serverTimezone=UTC)
+ *   - Usuario: ${MYSQL_USER} (default: root)
+ *   - Contraseña: ${MYSQL_PASSWORD} (default: vacía)
  *   - Driver: com.mysql.cj.jdbc.Driver
- * 
+ *
  * Esta clase es thread-safe gracias al uso estático y sincronizado del driver.
  */
 
