@@ -21,8 +21,8 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
 
-    // 🔧 Configuración de conexión
-    private static final String URL = "jdbc:mysql://localhost:3306/clorian_db?useSSL=false&serverTimezone=UTC";
+    // 🔧 Configuración de conexión (credenciales y URL vía variables de entorno)
+    private static final String URL = System.getenv().getOrDefault("MYSQL_URL", "jdbc:mysql://localhost:3306/clorian_db?useSSL=false&serverTimezone=UTC");
     private static final String USER = System.getenv().getOrDefault("MYSQL_USER", "root");
     private static final String PASSWORD = System.getenv().getOrDefault("MYSQL_PASSWORD", "");
     private static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
