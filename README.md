@@ -1,4 +1,3 @@
-```markdown
 # Clorian DB Connector
 ![Java](https://img.shields.io/badge/Java-17%2B-blue)
 ![Jira](https://img.shields.io/badge/Jira-Cloud%2FServer-0052CC.svg)
@@ -64,7 +63,6 @@ En conjunto con Jira Webhook Receiver, forma un sistema de sincronización compl
   │ • Customers      │
   │ • Sync status    │
   └──────────────────┘
-```
 
 ## Características Principales
 
