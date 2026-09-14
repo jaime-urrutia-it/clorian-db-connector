@@ -274,6 +274,6 @@ Este proyecto es un MVP de demostración, no un sistema de producción. Las sigu
 
 ## 📄 Licencia y Autoría
 
-Desarrollado por Jaime Urrutia · [GitHub](https://github.com/jaime-urrutia-it) | [Portfolio](https://yagourrutia.com) | [LinkedIn](https://www.linkedin.com/in/jaime-yago-urrutia-multilingue/)
+Desarrollado por Jaime Urrutia · [GitHub](https://github.com/jaime-urrutia-it) | [Portfolio](https://yagourrutia.com) | [LinkedIn](https://www.linkedin.com/in/jaime-urrutia-multilingue/?locale=es-ES)
 
 **Versión:** 1.0.0 | **Última actualización:** Agosto 2026
