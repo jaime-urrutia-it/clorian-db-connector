@@ -27,7 +27,6 @@ En conjunto con Jira Webhook Receiver, forma un sistema de sincronización compl
 - **Este proyecto (Emisor):** Envía tickets nuevos de MySQL a Jira + Polling de estado cada 30s.
 - **Webhook Receiver (Receptor):** Recibe actualizaciones instantáneas de Jira vía HTTP webhooks.
 
-```text
 ┌─────────────────────────────────────────────────────────────────────┐
 │                    ARQUITECTURA COMPLETA                            │
 └─────────────────────────────────────────────────────────────────────┘
